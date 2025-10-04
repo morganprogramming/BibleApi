@@ -13,7 +13,7 @@ namespace BibleApi.Repository
 		public static void ValidateBookQueries()
 		{
 			var constants = typeof(BookQueries)
-				.GetFields(BindingFlags.Public | System.Reflection.BindingFlags.Static)
+				.GetFields(BindingFlags.Public | BindingFlags.Static)
 				.Select(x => x.GetValue(null)!.ToString())
 				.ToList();
 
