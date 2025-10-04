@@ -52,4 +52,5 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
-/.vs/BibleApi/CopilotIndices/17.14.1231.31060
+
+/.vs
