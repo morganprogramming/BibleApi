@@ -8,9 +8,16 @@ namespace BibleApi.Repository
 	/// This prevents runtime errors of missing queries.
 	/// This should be run at startup to validate.
 	/// </summary>
-	public static class QueryValidator
+	public class QueryValidator
 	{
-		public static void ValidateQueries<T>() where T : IQuery
+		private readonly ISqlQueryProvider _queryProvider;
+
+		public QueryValidator(ISqlQueryProvider queryProvider)
+		{
+			_queryProvider = queryProvider;
+		}
+
+		public void ValidateQueries<T>() where T : IQuery
 		{
 			var constants = typeof(T)
 				.GetFields(BindingFlags.Public | BindingFlags.Static)
@@ -19,13 +26,10 @@ namespace BibleApi.Repository
 
 			foreach (var name in constants)
 			{
-				try
+				if (!_queryProvider.GetAll().ContainsKey(name!))
 				{
-					var sql = QueryLoader.Get(name);
-				}
-				catch (KeyNotFoundException ex)
-				{
-					throw new InvalidOperationException($"Startup check failed: SQL query '{name}' is missing in embedded SQL files.", ex);
+					throw new InvalidOperationException(
+						$"Startup check failed: SQL query '{name}' is missing in embedded SQL files.");
 				}
 			}
 		}

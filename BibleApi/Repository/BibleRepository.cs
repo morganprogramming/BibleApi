@@ -8,16 +8,18 @@ namespace BibleApi.Repository
 	public class BibleRepository : IRepository
 	{
 		private readonly string _connectionString;
+		private readonly ISqlQueryProvider _sqlQueryProvider;
 
-		public BibleRepository(IConfiguration configuration)
+		public BibleRepository(IConfiguration configuration, ISqlQueryProvider sqlQueryProvider)
 		{
 			_connectionString = GetConnectionString(configuration);
+			_sqlQueryProvider = sqlQueryProvider;
 		}
 
 		public async Task<IEnumerable<BookEntity>> GetBooks()
 		{
 			using var connection = new SqliteConnection(_connectionString);
-			var sql = QueryLoader.Get(BookQueries.GetBooks);
+			var sql = _sqlQueryProvider.Get(BookQueries.GetBooks);
 
 			var bookList = await connection.QueryAsync<BookEntity>(sql);
 			return bookList;
