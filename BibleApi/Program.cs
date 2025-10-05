@@ -9,7 +9,7 @@ namespace BibleApi
 	{
 		public static void Main(string[] args)
 		{
-			QueryValidator.ValidateBookQueries();
+			ValidateQueries();
 
 			var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +43,11 @@ namespace BibleApi
 			app.MapControllers();
 
 			app.Run();
+		}
+
+		private static void ValidateQueries()
+		{
+			QueryValidator.ValidateQueries<BookQueries>();
 		}
 	}
 }

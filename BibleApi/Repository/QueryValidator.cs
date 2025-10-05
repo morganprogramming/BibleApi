@@ -10,9 +10,9 @@ namespace BibleApi.Repository
 	/// </summary>
 	public static class QueryValidator
 	{
-		public static void ValidateBookQueries()
+		public static void ValidateQueries<T>() where T : IQuery
 		{
-			var constants = typeof(BookQueries)
+			var constants = typeof(T)
 				.GetFields(BindingFlags.Public | BindingFlags.Static)
 				.Select(x => x.GetValue(null)!.ToString())
 				.ToList();
