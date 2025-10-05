@@ -8,9 +8,9 @@ namespace BibleApi.Services
 	public class BibleService
 	{
 		private readonly IMapper _mapper;
-		private readonly BibleRepository _repository;
+		private readonly IRepository _repository;
 
-		public BibleService(BibleRepository repository, IMapper mapper)
+		public BibleService(IRepository repository, IMapper mapper)
 		{
 			_repository = repository;
 			_mapper = mapper;
