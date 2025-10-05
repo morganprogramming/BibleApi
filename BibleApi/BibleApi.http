@@ -3,4 +3,11 @@
 GET {{BibleApi_HostAddress}}/api/Bible/Books
 Accept: application/json
 
-###
+### GET Book by Id
+GET {{BibleApi_HostAddress}}/api/Bible/Books/1
+Accept: application/json
+
+
+### GET Book by Id
+GET {{BibleApi_HostAddress}}/api/Bible/Books/66
+Accept: application/json

@@ -23,7 +23,7 @@ namespace BibleApi
 			{
 				c.AddProfile<BibleProfile>();
 			});
-			builder.Services.AddSingleton<BibleRepository>();
+			builder.Services.AddSingleton<IRepository, BibleRepository>();
 			builder.Services.AddSingleton<BibleService>();
 
 			builder.Services.AddSingleton<ISqlQueryProvider>(sp => new QueryLoader(Assembly.GetExecutingAssembly()));

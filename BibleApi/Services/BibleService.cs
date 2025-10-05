@@ -16,12 +16,24 @@ namespace BibleApi.Services
 			_mapper = mapper;
 		}
 
-		public async Task<List<Book>> GetBooks()
+		public async Task<List<Book>> GetBooksAsync()
 		{
-			var booksFromDB = await _repository.GetBooks();
+			var booksFromDB = await _repository.GetBooksAsync();
 			var books = _mapper.Map<IEnumerable<BookEntity>, List<Book>>(booksFromDB);
 
 			return books;
+		}
+
+		public async Task<Book?> GetBookByIdAsync(int id)
+		{
+			var bookFromDB = await _repository.GetBookByIdAsync(id);
+			if (bookFromDB == null)
+			{
+				return null;
+			}
+
+			var book = _mapper.Map<BookEntity, Book>(bookFromDB);
+			return book;	
 		}
 	}
 }

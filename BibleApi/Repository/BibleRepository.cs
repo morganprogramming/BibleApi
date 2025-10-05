@@ -16,13 +16,22 @@ namespace BibleApi.Repository
 			_sqlQueryProvider = sqlQueryProvider;
 		}
 
-		public async Task<IEnumerable<BookEntity>> GetBooks()
+		public async Task<IEnumerable<BookEntity>> GetBooksAsync()
 		{
 			using var connection = new SqliteConnection(_connectionString);
 			var sql = _sqlQueryProvider.Get(BookQueries.GetBooks);
 
 			var bookList = await connection.QueryAsync<BookEntity>(sql);
 			return bookList;
+		}
+
+		public async Task<BookEntity?> GetBookByIdAsync(int bookId)
+		{
+			using var connection = new SqliteConnection(_connectionString);
+			var sql = _sqlQueryProvider.Get(BookQueries.GetBookById);
+
+			var book = await connection.QuerySingleOrDefaultAsync<BookEntity>(sql, new { bookId = bookId });
+			return book;
 		}
 
 		private string GetConnectionString(IConfiguration configuration)

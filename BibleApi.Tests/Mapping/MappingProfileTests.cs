@@ -3,6 +3,7 @@ using BibleApi.Models.Bible;
 using BibleApi.Models.DTO;
 using BibleApi.Profiles;
 using BibleApi.Services;
+using BibleApi.Tests.Common;
 using Microsoft.Extensions.Logging;
 using Moq;
 
@@ -29,7 +30,7 @@ namespace BibleApi.Tests.Mapping
 		public void BiblProfile_BookEntityToBook_OldTestament_Singular()
 		{
 			// Arrange
-			var entity = GetBookEntities().Where(x => x.Testament_Reference_Id == 1).First();
+			var entity = BookData.GetBookEntities().Where(x => x.Testament_Reference_Id == 1).First();
 
 			// Act
 			var mappedBook = _mapperConfiguration.CreateMapper().Map<Book>(entity);
@@ -45,7 +46,7 @@ namespace BibleApi.Tests.Mapping
 		public void BiblProfile_BookEntityToBook_NewTestament_Singular()
 		{
 			// Arrange
-			var entity = GetBookEntities().Where(x => x.Testament_Reference_Id == 2).First();
+			var entity = BookData.GetBookEntities().Where(x => x.Testament_Reference_Id == 2).First();
 
 			// Act
 			var mappedBook = _mapperConfiguration.CreateMapper().Map<Book>(entity);
@@ -61,7 +62,7 @@ namespace BibleApi.Tests.Mapping
 		public void BiblProfile_BookEntityToBook_List()
 		{
 			// Arrange
-			var entities = GetBookEntities();
+			var entities = BookData.GetBookEntities();
 
 			// Act
 			var mappedBooks = _mapperConfiguration.CreateMapper().Map<List<Book>>(entities);
@@ -69,37 +70,6 @@ namespace BibleApi.Tests.Mapping
 			// Assert
 			Assert.NotNull(mappedBooks);
 			Assert.Equal(entities.Count, mappedBooks.Count);
-		}
-
-		private List<BookEntity> GetBookEntities()
-		{
-			return new List<BookEntity>()
-			{
-				new BookEntity()
-				{
-					Id = 1,
-					Name = "Genesis",
-					Testament_Reference_Id = 1
-				},
-				new BookEntity()
-				{
-					Id = 2,
-					Name = "Exodus",
-					Testament_Reference_Id = 1
-				},
-				new BookEntity()
-				{
-					Id = 40,
-					Name = "Matthew",
-					Testament_Reference_Id = 2
-				},
-				new BookEntity()
-				{
-					Id = 66,
-					Name = "Revelation",
-					Testament_Reference_Id = 2
-				}
-			};
 		}
 	}
 }

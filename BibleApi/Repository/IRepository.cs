@@ -4,6 +4,7 @@ namespace BibleApi.Repository
 {
 	public interface IRepository
 	{
-		Task<IEnumerable<BookEntity>> GetBooks();
+		Task<IEnumerable<BookEntity>> GetBooksAsync();
+		Task<BookEntity?> GetBookByIdAsync(int bookId);
 	}
 }

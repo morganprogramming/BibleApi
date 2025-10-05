@@ -16,9 +16,22 @@ namespace BibleApi.Controllers
 		[HttpGet("books")]
 		public async Task<IResult> GetBooks()
 		{
-			var books = await _bibleService.GetBooks();
+			var books = await _bibleService.GetBooksAsync();
 
 			return Results.Ok(books);
+		}
+
+		[HttpGet("books/{bookId:int}")]
+		public async Task<IResult> GetBooks(int bookId)
+		{
+			var book = await _bibleService.GetBookByIdAsync(bookId);
+
+			if (book == null)
+			{
+				return Results.NotFound();
+			}
+
+			return Results.Ok(book);
 		}
 	}
 }
