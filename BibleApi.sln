@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36518.9 d17.14
+VisualStudioVersion = 17.14.36518.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleApi", "BibleApi\BibleApi.csproj", "{C6318CC5-7F23-4962-82FB-190184EFC9E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BibleApi.Tests", "BibleApi.Tests\BibleApi.Tests.csproj", "{ACAAA8B9-DE42-4183-83C6-C23252D94DDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C6318CC5-7F23-4962-82FB-190184EFC9E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6318CC5-7F23-4962-82FB-190184EFC9E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6318CC5-7F23-4962-82FB-190184EFC9E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACAAA8B9-DE42-4183-83C6-C23252D94DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACAAA8B9-DE42-4183-83C6-C23252D94DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACAAA8B9-DE42-4183-83C6-C23252D94DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACAAA8B9-DE42-4183-83C6-C23252D94DDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
