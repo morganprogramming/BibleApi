@@ -2,7 +2,6 @@
 using BibleApi.Models.Bible;
 using BibleApi.Models.DTO;
 using BibleApi.Repository;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BibleApi.Services
 {
