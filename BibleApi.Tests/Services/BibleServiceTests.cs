@@ -84,7 +84,7 @@ namespace BibleApi.Tests.Services
 			var repositoryMock = new Mock<IRepository>();
 			repositoryMock
 				.Setup(x => x.GetBookByIdAsync(999))
-				.ReturnsAsync((BookEntity) null);
+				.ReturnsAsync(null as BookEntity);
 
 			// Act
 			var service = new BibleService(repositoryMock.Object, _mapperConfiguration.CreateMapper());
