@@ -1,6 +1,6 @@
-﻿namespace BibleApi.Models.DTO
+﻿namespace BibleApi.Models.Http
 {
-	public record Book
+	public class BookResponse
 	{
 		public int Id { get; set; }
 		public string Testament { get; set; } = string.Empty;

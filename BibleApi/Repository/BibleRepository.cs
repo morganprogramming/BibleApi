@@ -1,6 +1,7 @@
 ﻿using BibleApi.Models.Bible;
 using Dapper;
 using Microsoft.Data.Sqlite;
+using System.Collections.Generic;
 using System.Configuration;
 
 namespace BibleApi.Repository
@@ -18,20 +19,39 @@ namespace BibleApi.Repository
 
 		public async Task<IEnumerable<BookEntity>> GetBooksAsync()
 		{
-			using var connection = new SqliteConnection(_connectionString);
-			var sql = _sqlQueryProvider.Get(BookQueries.GetBooks);
+			var input = new BookQueryInput();
+			var books = await GetBooksAsync(input);
 
-			var bookList = await connection.QueryAsync<BookEntity>(sql);
-			return bookList;
+			return books;
 		}
 
 		public async Task<BookEntity?> GetBookByIdAsync(int bookId)
 		{
-			using var connection = new SqliteConnection(_connectionString);
-			var sql = _sqlQueryProvider.Get(BookQueries.GetBookById);
+			var input = new BookQueryInput()
+			{
+				BookId = bookId
+			};
 
-			var book = await connection.QuerySingleOrDefaultAsync<BookEntity>(sql, new { bookId = bookId });
-			return book;
+			var books = await GetBooksAsync(input);
+			return books.FirstOrDefault();
+		}
+
+		private async Task<IEnumerable<BookEntity>> GetBooksAsync(BookQueryInput input)
+		{
+			using var connection = new SqliteConnection(_connectionString);
+			var baseSql = _sqlQueryProvider.Get(BookQueries.GetBooks);
+
+			var builder = new SqlBuilder();
+			var template = builder.AddTemplate(baseSql);
+
+			if (input.BookId != null)
+			{
+				builder.Where("b.id = @bookId", new { bookId = input.BookId });
+			}
+
+			var books = await connection.QueryAsync<BookEntity>(template.RawSql, template.Parameters);
+
+			return books;
 		}
 
 		private string GetConnectionString(IConfiguration configuration)
@@ -43,6 +63,11 @@ namespace BibleApi.Repository
 			}
 
 			return connectionString;
+		}
+
+		private class BookQueryInput
+		{
+			public int? BookId { get; set; } = null;
 		}
 	}
 }

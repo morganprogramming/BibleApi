@@ -24,9 +24,9 @@ namespace BibleApi.Services
 			return books;
 		}
 
-		public async Task<Book?> GetBookByIdAsync(int id)
+		public async Task<Book?> GetBookByIdAsync(int bookId)
 		{
-			var bookFromDB = await _repository.GetBookByIdAsync(id);
+			var bookFromDB = await _repository.GetBookByIdAsync(bookId);
 			if (bookFromDB == null)
 			{
 				return null;
