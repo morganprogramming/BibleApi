@@ -1,4 +1,6 @@
-﻿using BibleApi.Services;
+﻿using AutoMapper;
+using BibleApi.Models.Http;
+using BibleApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BibleApi.Controllers
@@ -8,17 +10,20 @@ namespace BibleApi.Controllers
 	public class BibleController : ControllerBase
 	{
 		private readonly BibleService _bibleService;
-		public BibleController(BibleService bibleService)
+		private readonly IMapper _mapper;
+		public BibleController(BibleService bibleService, IMapper mapper)
 		{
 			_bibleService = bibleService;
+			_mapper = mapper;
 		}
 
 		[HttpGet("books")]
 		public async Task<IResult> GetBooks()
 		{
 			var books = await _bibleService.GetBooksAsync();
+			var response = _mapper.Map<List<BookResponse>>(books);
 
-			return Results.Ok(books);
+			return Results.Ok(response);
 		}
 
 		[HttpGet("books/{bookId:int}")]
@@ -30,8 +35,8 @@ namespace BibleApi.Controllers
 			{
 				return Results.NotFound();
 			}
-
-			return Results.Ok(book);
+			var response = _mapper.Map<BookResponse>(book);
+			return Results.Ok(response);
 		}
 	}
 }

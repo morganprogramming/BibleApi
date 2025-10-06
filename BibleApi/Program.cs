@@ -22,7 +22,9 @@ namespace BibleApi
 			builder.Services.AddAutoMapper(c =>
 			{
 				c.AddProfile<BibleProfile>();
+				c.AddProfile<HttpResponseProfile>();
 			});
+
 			builder.Services.AddSingleton<IRepository, BibleRepository>();
 			builder.Services.AddSingleton<BibleService>();
 
