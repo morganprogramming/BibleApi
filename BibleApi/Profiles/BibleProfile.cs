@@ -11,6 +11,9 @@ namespace BibleApi.Profiles
 			CreateMap<BookEntity, Book>()
 				.ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Name))
 				.ForMember(dest => dest.Testament, opt => opt.MapFrom(src => MapTestament(src.Testament_Reference_Id)));
+
+
+			CreateMap<VerseEntity, Verse>();
 		}
 
 		private static string MapTestament(int testamentReferenceId)

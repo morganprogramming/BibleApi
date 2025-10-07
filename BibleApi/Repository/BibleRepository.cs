@@ -36,6 +36,15 @@ namespace BibleApi.Repository
 			return books.FirstOrDefault();
 		}
 
+		public async Task<IEnumerable<VerseEntity>> GetChapterVersesAsync(int bookId, int chapter)
+		{
+			using var connection = new SqliteConnection(_connectionString);
+			var baseSql = _sqlQueryProvider.Get(BookQueries.GetBookChapterVerses);
+
+			var verses = await connection.QueryAsync<VerseEntity>(baseSql, new { bookId = bookId, chapterNumber = chapter });
+			return verses;
+		}
+
 		private async Task<IEnumerable<BookEntity>> GetBooksAsync(BookQueryInput input)
 		{
 			using var connection = new SqliteConnection(_connectionString);

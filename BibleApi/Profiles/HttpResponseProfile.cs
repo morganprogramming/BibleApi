@@ -9,6 +9,7 @@ namespace BibleApi.Profiles
 		public HttpResponseProfile()
 		{
 			CreateMap<Book, BookResponse>();
+			CreateMap<Chapter, ChapterResponse>();
 		}
 	}
 }

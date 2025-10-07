@@ -35,5 +35,32 @@ namespace BibleApi.Services
 			var book = _mapper.Map<BookEntity, Book>(bookFromDB);
 			return book;	
 		}
+
+		public async Task<Chapter?> GetChapterContentAsync(int bookId, int chapterNumber)
+		{
+			var book = await GetBookByIdAsync(bookId);
+			if (book == null)
+			{
+				return null;
+			}
+
+			var versesFromDB = await _repository.GetChapterVersesAsync(bookId, chapterNumber);
+			var verses = _mapper.Map<IEnumerable<VerseEntity>, List<Verse>>(versesFromDB);
+
+			if (verses == null || !verses.Any())
+			{
+				return null;
+			}
+
+			var chapter = new Chapter()
+			{
+				BookId = book.Id,
+				BookName = book.Title,
+				ChapterNumber = chapterNumber,
+				Verses = verses
+			};
+
+			return chapter;
+		}
 	}
 }
