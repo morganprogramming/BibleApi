@@ -13,7 +13,7 @@ namespace BibleApi.Profiles
 				.ForMember(dest => dest.Testament, opt => opt.MapFrom(src => MapTestament(src.Testament_Reference_Id)));
 
 
-			CreateMap<VerseEntity, Verse>();
+			CreateMap<ChapterEntity, Verse>();
 		}
 
 		private static string MapTestament(int testamentReferenceId)

@@ -44,8 +44,8 @@ namespace BibleApi.Services
 				return null;
 			}
 
-			var versesFromDB = await _repository.GetChapterVersesAsync(bookId, chapterNumber);
-			var verses = _mapper.Map<IEnumerable<VerseEntity>, List<Verse>>(versesFromDB);
+			var versesFromDB = await _repository.GetChapterAsync(bookId, chapterNumber);
+			var verses = _mapper.Map<IEnumerable<ChapterEntity>, List<Verse>>(versesFromDB);
 
 			if (verses == null || !verses.Any())
 			{
@@ -57,6 +57,7 @@ namespace BibleApi.Services
 				BookId = book.Id,
 				BookName = book.Title,
 				ChapterNumber = chapterNumber,
+				BookTotalChapters = book.NumberOfChapters,
 				Verses = verses
 			};
 

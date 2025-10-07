@@ -30,7 +30,7 @@ namespace BibleApi.Controllers
 		}
 
 		[HttpGet("books/{bookId:int}")]
-		public async Task<IResult> GetBooks(int bookId)
+		public async Task<IResult> GetBook(int bookId)
 		{
 			var book = await _bibleService.GetBookByIdAsync(bookId);
 
@@ -42,10 +42,10 @@ namespace BibleApi.Controllers
 			return Results.Ok(response);
 		}
 
-		[HttpGet("books/{bookId:int}/chapter/{chapterId:int}/verses")]
-		public async Task<IResult> GetChapters(int bookId, int chapterId)
+		[HttpGet("books/{bookId:int}/chapter/{chapterNumber:int}")]
+		public async Task<IResult> GetChapter(int bookId, int chapterNumber)
 		{
-			var chapter = await _bibleService.GetChapterContentAsync(bookId, chapterId);
+			var chapter = await _bibleService.GetChapterContentAsync(bookId, chapterNumber);
 
 			if (chapter == null)
 			{
@@ -53,20 +53,19 @@ namespace BibleApi.Controllers
 			}
 
 			var response = _mapper.Map<ChapterResponse>(chapter);
-			// Generate navigation links
 
-			// TODO FIX THIS!!
-			//var previousUrl = chapter.ChapterNavigation.PreviousChapter.HasValue
-			//	? _linkGenerator.GetUriByAction(HttpContext, action: nameof(GetChapters),
-			//	controller: "Bible", values: new { bookId, chapter = chapter.ChapterNavigation.PreviousChapter }) : null;
+			response.Navigation = new ChapterNavigationLinks
+			{
+				Previous = chapterNumber > 1
+			? _linkGenerator.GetPathByAction(HttpContext, nameof(GetChapter), values: new { bookId, chapterNumber = chapterNumber - 1 })
+			: null,
 
-			//var nextUrl = result.Navigation.NextChapter.HasValue
-			//	? _linkGenerator.GetUriByAction(HttpContext, action: nameof(GetChapterAsync),
-			//		controller: "Bible", values: new { bookId, chapter = result.Navigation.NextChapter })
-			//	: null;
-			//response.Navigation.Previous = chapter.ChapterNumber > 1
-			//	? _linkGenerator.GetPathByAction(HttpContext, action: nameof(GetChapters), controller: "Bible", values: new { bookId = bookId, chapterId = chapter.ChapterNumber - 1 })
-			//	: null;
+				Next = chapterNumber < chapter.BookTotalChapters
+			? _linkGenerator.GetPathByAction(HttpContext, nameof(GetChapter), values: new { bookId, chapterNumber = chapterNumber + 1 })
+			: null,
+
+				Book = _linkGenerator.GetPathByAction(HttpContext, nameof(GetBook), values: new { bookId })
+			};
 
 			return Results.Ok(response);
 		}

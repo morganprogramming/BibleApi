@@ -1,6 +1,6 @@
 ﻿namespace BibleApi.Models.Bible
 {
-	public class VerseEntity
+	public class ChapterEntity
 	{
 		public int BookId { get; set; }
 		public int ChapterNumber { get; set; }
